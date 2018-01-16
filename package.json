@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "npm install && grunt publish",
-    "dev": "grunt & nodemon app.js"
+    "dev": "START grunt & nodemon app.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
