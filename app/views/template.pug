@@ -6,9 +6,9 @@ html
     script(src='/js/fetch.js')
   body
     #navbar
-        a(href='/')
-            span home
-
+        #nb-header
+            a(href='/')
+                span home
         #nb-items
             a(href='/')
                 span register
@@ -18,7 +18,6 @@ html
                 span logout
             
             #nb-profpic
-            	
     block content
     script(src='/js/script.min.js')
     if token

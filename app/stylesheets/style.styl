@@ -7,8 +7,54 @@ color3 = #7D8CC4
 color4 = #726DA8
 color5 = #0D324D
 
-//- NAVIGATION BAR
+navbar-height = 25px
+navbar-font = Futura, sans-serif
+navbar-color = color1
+navbar-bg = color5
 
+//- NAVIGATION BAR
+#navbar
+    position fixed
+    top 0px
+    left 0px
+    width calc(100% - 40px)
+    height navbar-height
+    padding 20 px
+    background navbar-bg
+
+#navbar span
+    color navbar-color
+    font-size 1em
+    text-transform lowercase
+    font-family navbar-font
+
+#nb-header span
+    text-transform uppercase
+    
+#nb-items
+    float right
+
+#nb-items *
+    padding-left 20px
+
+#nb-items a
+    color navbar-color
+    text-decoration none
+
+#nb-items a:hover
+    color navbar-color
+    text-decoration underline
+
+#nb-items a:active
+    color grey
+    text-decoration underline
+    
+//- PAGE CONTENT
+.content
+    margin-bottom 20px
+    margin-top navbar-height
+    padding-top 20px
+    width 100%
 
 .error-message
     visibility hidden
