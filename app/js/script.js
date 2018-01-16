@@ -93,9 +93,29 @@ function storePosition(position) {
     x.innerHTML = "Latitude: " + position.coords.latitude +
     "<br>Longitude: " + position.coords.longitude;
 
-    var location = {
+    var userLocation = {
+        id: localStorage.id,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
     }
-
+    console.log(userLocation)
+    fetch('/location', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify(userLocation)
+    }).then(function(res) {
+        if (!res.ok) {
+            res.text().then(function(message) {
+                alert(message)
+            })
+        }
+        res.json().then(function(data) {
+            alert("location stored")
+            window.location = '/'
+        })
+    }).catch(function(err) {
+        console.error(err)
+    })
 }
