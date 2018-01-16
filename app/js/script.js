@@ -77,7 +77,7 @@ function storePosition(position) {
     x.innerHTML = "Latitude: " + position.coords.latitude +
     "<br>Longitude: " + position.coords.longitude;
 
-    var userLocation {
+    var userLocation = {
         id: localStorage.id,
         location: {
             latitude: position.coords.latitude,
@@ -103,5 +103,4 @@ function storePosition(position) {
     }).catch(function(err) {
         console.error(err)
     })
-
 }
