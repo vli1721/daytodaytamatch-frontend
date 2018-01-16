@@ -7,6 +7,10 @@ router.get('/', (req, res, next) => {
     return res.render('index');
 });
 
+router.get('/get-location', (req, res, next) => {
+    return res.render('getGeolocationDemo');
+});
+
 router.post('/register', (req, res, next) => {
   request.post({
       url: config.apiUrl + '/users',
