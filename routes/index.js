@@ -7,9 +7,16 @@ router.get('/', (req, res, next) => {
     return res.render('index');
 });
 
-router.get('/get-location', (req, res, next) => {
+router.get('/location', (req, res, next) => {
     return res.render('getGeolocationDemo');
 });
+
+router.post('/location', (req, res, next) => {
+  request.post({
+      url: config.apiUrl + '/update-location',
+      form: req.body
+  }).pipe(res)
+})
 
 router.post('/register', (req, res, next) => {
   request.post({
