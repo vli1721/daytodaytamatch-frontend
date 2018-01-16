@@ -63,3 +63,22 @@ function displayError(message) {
     errorDiv.innerHTML = message;
     errorDiv.style.visibility = 'visible';
 }
+
+var x = document.getElementById("demo");
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(storePosition)
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function storePosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+
+    var location = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+    }
+}
