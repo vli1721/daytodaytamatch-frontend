@@ -11,6 +11,10 @@ router.get('/login', (req, res, next) => {
 	return res.render('login')
 })
 
+router.get('/register', (req, res, next) => {
+    return res.render('register');
+});
+
 router.post('/register', (req, res, next) => {
   request.post({
       url: config.apiUrl + '/users',
@@ -18,6 +22,12 @@ router.post('/register', (req, res, next) => {
   }).pipe(res)
 })
 
+router.post('/login', (req, res, next) => {
+  request.post({
+      url: config.apiUrl + '/users',
+      form: req.body
+  }).pipe(res)
+})
 
 
 module.exports = router;
