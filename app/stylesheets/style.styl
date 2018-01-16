@@ -12,6 +12,9 @@ navbar-font = Futura, sans-serif
 navbar-color = color1
 navbar-bg = color5
 
+h2-font = Futura, sans-serif
+body-font = Futura, sans-serif
+
 //- NAVIGATION BAR
 #navbar
     position fixed
@@ -56,6 +59,68 @@ navbar-bg = color5
     padding-top 20px
     width 100%
 
+h2
+    font-family h2-font
+
+//- FORM
+.form-box
+    width calc(100% - 60px - 50%)
+    margin-top 0%
+    margin-left 25%
+    margin-right 25%
+    border 1px solid black
+    padding-left 30px
+    padding-right 30px
+    padding-top 30px
+    padding-bottom 30px
+    font-family body-font
+    text-align Center
+
+.fb-item input
+    -webkit-transition-duration 0.8s
+    transition-duration 0.8s
+    width 60%
+    font-family body-font
+    border none
+    border-bottom 2px solid #babec4
+    font-size 20px
+    padding 2%
+    outline none
+
+.fb-item input:placeholder
+    color #babec4
+
+.fb-item input:focus
+    outline none
+    border-bottom 2px solid black
+    color solid black
+
+#submit
+    outline none
+    background-color color4
+    border 1px solid color4
+    padding 15px
+    padding-left 20px
+    padding-right 20px
+    text-align center
+    display inline-block
+    font-size 16px
+    color white
+    -webkit-transition-duration 0.4s
+    transition-duration 0.4s
+
+#submit:hover
+    outline none
+    background-color color5
+    border 1px solid color5
+    cursor pointer
+
+#submit:active
+    outline none
+    border 1px solid color5
+    background-color color4
+    color #4f4f4f
+
 .error-message
     visibility hidden
     color red
@@ -81,8 +146,6 @@ navbar-bg = color5
     background-color white
     border-radius 5px
     text-align center
-
-
 
 
 

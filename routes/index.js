@@ -11,8 +11,8 @@ router.get('/location', (req, res, next) => {
     return res.render('getGeolocationDemo');
 });
 
-router.post('/location', (req, res, next) => {
-  request.post({
+router.put('/location', (req, res, next) => {
+  request.put({
       url: config.apiUrl + '/update-location',
       form: req.body
   }).pipe(res)

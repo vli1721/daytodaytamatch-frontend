@@ -79,16 +79,15 @@ function storePosition(position) {
 
     var userLocation = {
         id: localStorage.id,
-        location: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-        }
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
     }
+    console.log(userLocation)
     fetch('/location', {
         headers: {
             'Content-Type': 'application/json'
         },
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(userLocation)
     }).then(function(res) {
         if (!res.ok) {
