@@ -1,10 +1,24 @@
 doctype html
 html
   head
-    title= title || "CHANGE TITLE IN TEMPLATE.PUG"
+    title= title || "Day to DaytaMatch"
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='/js/fetch.js')
   body
+    #navbar
+        a(href='/')
+            span home
+
+        #nb-items
+            a(href='/')
+                span register
+            a(href='/login')
+                span login
+            a(href='/logout')
+                span logout
+            
+            #nb-profpic
+            	
     block content
     script(src='/js/script.min.js')
     if token
