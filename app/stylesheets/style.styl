@@ -7,13 +7,18 @@ color3 = #7D8CC4
 color4 = #726DA8
 color5 = #0D324D
 
+//- navbar attributes
 navbar-height = 25px
 navbar-font = Futura, sans-serif
 navbar-color = color1
 navbar-bg = color5
 
+//- font families
 h2-font = Futura, sans-serif
 body-font = Futura, sans-serif
+
+//- colors
+h2-color = color5
 
 //- NAVIGATION BAR
 #navbar
@@ -33,7 +38,7 @@ body-font = Futura, sans-serif
 
 #nb-header span
     text-transform uppercase
-    
+
 #nb-items
     float right
 
@@ -51,7 +56,7 @@ body-font = Futura, sans-serif
 #nb-items a:active
     color grey
     text-decoration underline
-    
+
 //- PAGE CONTENT
 .content
     margin-bottom 20px
@@ -61,14 +66,15 @@ body-font = Futura, sans-serif
 
 h2
     font-family h2-font
+    color h2-color
 
 //- FORM
 .form-box
-    width calc(100% - 60px - 50%)
+    width calc(100% - 60px - 20%)
     margin-top 0%
-    margin-left 25%
-    margin-right 25%
-    border 1px solid black
+    margin-left 10%
+    margin-right 10%
+    border none
     padding-left 30px
     padding-right 30px
     padding-top 30px
@@ -86,19 +92,21 @@ h2
     font-size 20px
     padding 2%
     outline none
+    color color5
 
 .fb-item input:placeholder
     color #babec4
 
 .fb-item input:focus
     outline none
-    border-bottom 2px solid black
-    color solid black
+    border-bottom 2px solid color4
+    color color4
 
 #submit
     outline none
-    background-color color4
-    border 1px solid color4
+    background-color color3
+    border 1px solid color3
+    border-radius 48px
     padding 15px
     padding-left 20px
     padding-right 20px
@@ -106,20 +114,21 @@ h2
     display inline-block
     font-size 16px
     color white
-    -webkit-transition-duration 0.4s
-    transition-duration 0.4s
+    font-family body-font
 
 #submit:hover
     outline none
-    background-color color5
-    border 1px solid color5
+    background-color color4
+    border 1px solid color4
     cursor pointer
+    font-size 20px
+    border-radius 60px
 
 #submit:active
     outline none
-    border 1px solid color5
-    background-color color4
-    color #4f4f4f
+    color color5
+    font-size 20px
+    border-radius 60px
 
 .error-message
     visibility hidden
@@ -127,6 +136,7 @@ h2
     font-weight bold
     text-align left
     padding 1rem 0
+
 .modal
     display none
     position fixed
@@ -138,6 +148,7 @@ h2
     overflow auto
     background-color #000
     background-color rgba(0, 0, 0, .5)
+
 .modal-content
     max-width 90%
     margin 10% auto
@@ -146,7 +157,3 @@ h2
     background-color white
     border-radius 5px
     text-align center
-
-
-
-

@@ -22,3 +22,11 @@ html
     script(src='/js/script.min.js')
     if token
         script localStorage.token = "#{token}"
+
+block postscript
+    script.
+        window.onclick = function(event) {
+            if (event.target==document.getElementById('js-success')) {
+                document.getElementById('js-success').style.display = 'none'
+            }
+        }

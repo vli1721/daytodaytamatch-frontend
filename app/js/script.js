@@ -5,13 +5,25 @@ const form = document.forms[0]
 =============================================*/
 
 function submitUser() {
+  // TODO: update keys in data object to match schema
   var data = {}
+  if (form.firstName.value) data.firstName = form.firstName.value
+  if (form.lastName.value) data.lastName = form.lastName.value
   if (form.email.value) data.email = form.email.value
   if (form.password.value) data.password = form.password.value
+  if (form.confirm.value) data.confirm = form.confirm.value
+  if (form.phone.value) data.phoneNumber = form.phone.value
+  if (form.classYear.value) data.classYear = form.classYear.value
+  if (form.house.value) data.house = form.house.value
 
+  if (!data.firstName) return displayError('Must provide first name')
+  if (!data.lastName) return displayError('Must provide last name')
   if (!data.email) return displayError('Must provide email')
   if (!data.password) return displayError('Must provide password')
   if (data.password !== form.confirm.value) return displayError('Passwords do not match')
+  if (!data.phoneNumber) return displayError('Must provide phone number')
+  if (!data.classYear) return displayError('Must provide class year')
+  if (!data.house) return displayError('Must provide house')
 
   fetch('/register', {
     headers: {
@@ -59,9 +71,13 @@ function submitError(res, message) {
 }
 
 function displayError(message) {
+    /*
     var errorDiv = document.getElementById('js-error-message');
     errorDiv.innerHTML = message;
     errorDiv.style.visibility = 'visible';
+    */
+    console.log()
+    alert(message.toString())
 }
 
 var x = document.getElementById("demo");
