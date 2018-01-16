@@ -21,7 +21,7 @@ function submitUser() {
   if (!data.email) return displayError('Must provide email')
   if (!data.password) return displayError('Must provide password')
   if (data.password !== form.confirm.value) return displayError('Passwords do not match')
-  if (!data.phone) return displayError('Must provide phone number')
+  if (!data.phoneNumber) return displayError('Must provide phone number')
   if (!data.classYear) return displayError('Must provide class year')
   if (!data.house) return displayError('Must provide house')
 
