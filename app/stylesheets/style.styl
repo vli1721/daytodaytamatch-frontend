@@ -20,8 +20,17 @@ body-font = Futura, sans-serif
 //- colors
 h2-color = color5
 
+html, body
+    height 100%
+    width 100%
+    border none
+    margin 0%
+    padding 0%
+    display inline-block
+
 //- NAVIGATION BAR
 #navbar
+    z-index 1
     position fixed
     top 0px
     left 0px
@@ -38,7 +47,7 @@ h2-color = color5
 
 #nb-header span
     text-transform uppercase
-    
+
 #nb-items
     float right
 
@@ -56,13 +65,16 @@ h2-color = color5
 #nb-items a:active
     color grey
     text-decoration underline
-    
+
 //- PAGE CONTENT
 .content
-    margin-bottom 20px
-    margin-top navbar-height
-    padding-top 20px
+    position relative
+    margin-top 65px
+    padding-top 0px
+    padding-bottom 0px
+    border 0%
     width 100%
+    height calc(100% - 65px)
 
 h2
     font-family h2-font
@@ -130,13 +142,30 @@ h2
     font-size 20px
     border-radius 60px
 
+.buttons2
+    margin-top 0px
+    margin-bottom 0px
+    padding-top 0px
+    padding-bottom 0px
+    width 100%
+    height 100%
+
+.buttons2 button
+    position relative
+    height 100%
+    width 50%
+    margin-top 0px
+    margin-bottom 0px
+    padding-top 0px
+    padding-bottom 0px
+
 .error-message
     visibility hidden
     color red
     font-weight bold
     text-align left
     padding 1rem 0
-    
+
 .modal
     display none
     position fixed
@@ -148,7 +177,7 @@ h2
     overflow auto
     background-color #000
     background-color rgba(0, 0, 0, .5)
-    
+
 .modal-content
     max-width 90%
     margin 10% auto
@@ -157,7 +186,3 @@ h2
     background-color white
     border-radius 5px
     text-align center
-
-
-
-
