@@ -119,3 +119,113 @@ function storePosition(position) {
         console.error(err)
     })
 }
+
+var tree
+
+function makeTree(classesArray) {
+  // initialize tree
+  // level 0
+  tree = { start: {} }
+
+  // level 1
+  tree.start = {
+    work: {},
+    play: {},
+    eat: {}
+  }
+
+  // level 2
+  for (i in classesArray) {
+    tree.start.work[classesArray[i]] = {}
+  }
+
+  tree.start.play = {
+    chill: {},
+    tv: {},
+    workout: {},
+    'board games': {},
+    'video games': {}
+  }
+
+  tree.start.eat = {
+    dhall: {},
+    'eat out': {}
+  }
+  // level 3
+  console.log(tree.start.work)
+  for (i in tree.start.work) {
+    tree.start.work[i] = {
+      homework: {},
+      study: {}
+    }
+  }
+  console.log('made tree: ' + JSON.stringify(tree))
+}
+
+// dynamically render form options
+function renderTree(node) {
+  console.log("node: " + node)
+  if (!tree) {
+    // fetch classes
+    console.log("making tree")
+    makeTree(['ls1a', 'ec10a', 'cs50', 'sls20'])
+  }
+
+  var options = []
+  for (i in eval(node))
+    options.push(i)
+
+  console.log("options [" + options + "], number of buttons needed: " + options.length)
+
+  var buttons = document.getElementById('buttons')
+  buttons.innerHTML = ''
+  
+  if (options.length < 4) {
+    // horizontal layout
+  } else if (options.length == 4) {
+    // 2x2
+  } else {
+    // vertical layout
+  }
+  for (i in options) {
+    var option = document.createElement('button')
+    option.innerHTML = options[i]
+    option.setAttribute('onclick', 'renderTree(\'' + node + '.' + options[i] + '\')')
+    var height = 100 / options.length
+    option.setAttribute('style', 'height: ' + height + '%')
+    buttons.appendChild(option)
+  }
+
+  var path_id = document.getElementById('path')
+  path_id.innerHTML = ''
+
+  // start
+  var find_button = document.createElement('button')
+  find_button.setAttribute('style', 'clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)')
+  find_button.setAttribute('onclick', 'renderTree(\'tree.start\')')
+  find_button.innerHTML = 'start'
+  path_id.appendChild(find_button)
+
+  // other buttons
+  var path_arr = node.split('.')
+  for (i in path_arr) {
+    console.log('i: ' + i)
+    if (i > 1) {
+      var path_button = document.createElement('button')
+      path_button.innerHTML = path_arr[i]
+      path_button.setAttribute('onclick', 'renderTree(\'' + path_arr.slice(0, parseInt(i) + 1).join('.') + '\')')
+      path_id.appendChild(path_button)
+    }
+  }
+
+
+
+  return
+
+  // tree.findNode(node)
+  // findPeopleNowButton(node)
+
+}
+
+
+

@@ -2,6 +2,11 @@ extends template
 
 block content
     .content
-        .buttons2
-            button(type='button') Register
-            button(type='button') Login
+        .choice-block
+            #buttons
+                // child buttons
+            #path
+                // button onclick('render(node)')
+block postscript
+    script.
+        renderTree('tree.start')
