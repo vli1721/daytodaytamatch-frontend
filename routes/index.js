@@ -16,6 +16,10 @@ router.get('/login', (req, res, next) => {
 	return res.render('login')
 })
 
+router.get('/logout', (req, res, next) =>{
+  return res.render('register')
+})
+
 router.get('/register', (req, res, next) => {
     return res.render('register');
 });

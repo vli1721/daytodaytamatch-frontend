@@ -162,9 +162,16 @@ function makeTree(classesArray) {
   console.log('made tree: ' + JSON.stringify(tree))
 }
 
+
+
+
+
+
+
+
 // dynamically render form options
 function renderTree(node) {
-  console.log("node: " + node)
+
   if (!tree) {
     // fetch classes
     console.log("making tree")
@@ -209,10 +216,10 @@ function renderTree(node) {
   // other buttons
   var path_arr = node.split('.')
   for (i in path_arr) {
-    console.log('i: ' + i)
     if (i > 1) {
       var path_button = document.createElement('button')
       path_button.innerHTML = path_arr[i]
+      path_button.setAttribute('style', 'opacity: ' + parseFloat(1-0.2*i))
       path_button.setAttribute('onclick', 'renderTree(\'' + path_arr.slice(0, parseInt(i) + 1).join('.') + '\')')
       path_id.appendChild(path_button)
     }
@@ -226,6 +233,7 @@ function renderTree(node) {
   // findPeopleNowButton(node)
 
 }
+
 
 
 
