@@ -190,7 +190,7 @@ function renderTree(node) {
   for (i in options) {
     var option = document.createElement('button')
     option.innerHTML = options[i]
-    option.setAttribute('onclick', 'renderTree(\'' + node + '.' + options[i] + '\')')
+    option.setAttribute('onclick', 'renderTree(\'' + node.replace(/'/g, '\\\'') + '[\\\'' + options[i] + '\\\']' + '\')')
     var height = 100 / options.length
     option.setAttribute('style', 'height: ' + height + '%')
     buttons.appendChild(option)
@@ -201,24 +201,37 @@ function renderTree(node) {
 
   // start
   var find_button = document.createElement('button')
-  find_button.setAttribute('style', 'clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)')
-  find_button.setAttribute('onclick', 'renderTree(\'tree.start\')')
-  find_button.innerHTML = 'start'
+  find_button.setAttribute('style', 'clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)')
+  find_button.setAttribute('onclick', 'renderTree(\'tree[\\\'start\\\']\')')
+  find_button.innerHTML = 'START'
   path_id.appendChild(find_button)
 
   // other buttons
-  var path_arr = node.split('.')
+  // replace [ with .
+  node = node.replace(/\[/g, '.')
+  // remove ] and '
+  node = node.replace(/\]/g, '')
+  node = node.replace(/\'/g, '')
+
+  var arr = node.split('.')
+  console.log('replaced node: ' + arr + ' length: ' + arr.length)
+  var path_arr = arr // node.split('.')
   for (i in path_arr) {
     console.log('i: ' + i)
     if (i > 1) {
       var path_button = document.createElement('button')
-      path_button.innerHTML = path_arr[i]
-      path_button.setAttribute('onclick', 'renderTree(\'' + path_arr.slice(0, parseInt(i) + 1).join('.') + '\')')
+      path_button.innerHTML = path_arr[i].toUpperCase()
+      // making path with brackets
+      var path_string = path_arr[0]
+      for (var ind = 1; ind < parseInt(i) + 1; ind++) {
+        path_string += '[\\\'' + path_arr[ind] + '\\\']'
+      }
+      // renderTree(\'path_string\')
+        // path_string: tree['start']
+      path_button.setAttribute('onclick', 'renderTree(\'' + path_string + '\')')
       path_id.appendChild(path_button)
     }
   }
-
-
 
   return
 
