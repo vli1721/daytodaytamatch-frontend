@@ -98,7 +98,6 @@ function storePosition(position) {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
     }
-    console.log(userLocation)
     fetch('/location', {
         headers: {
             'Content-Type': 'application/json'
