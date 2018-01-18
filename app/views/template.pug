@@ -9,16 +9,17 @@ html
     #navbar
         #nb-header
             a(href='/')
-                img(src='/img/logo.png' alt='encounter++' height="80")
+                img(src='/img/logo.png' alt='encounter++' height='50')
         #nb-items
-            a(href='/register')
-                span register
-            a(href='/login')
-                span login
-            a(onclick='logout()')
-                span logout
-            
-            #nb-profpic
+            div(class='dropdown')
+                button(class='dropbtn') &#9776;
+                div(class='dropdown-content')
+                    a(href='/register')
+                        span register
+                    a(href='/login')
+                        span login
+                    a(onclick='logout()')
+                        span logout
     block content
     script(src='/js/script.min.js')
     if token

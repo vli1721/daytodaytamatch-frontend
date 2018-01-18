@@ -8,10 +8,10 @@ color4 = #726DA8
 color5 = #0D324D
 
 //- navbar attributes
-navbar-height = 25px
+navbar-height = 50px// 25px
 navbar-font = 'Raleway', sans-serif // Futura, sans-serif
 navbar-color = color1
-navbar-bg = color5
+navbar-bg = color1
 
 //- font families
 h2-font = 'Raleway', sans-serif // Futura, sans-serif
@@ -38,44 +38,80 @@ html, body
     height navbar-height
     padding 20 px
     background navbar-bg
+    display inline-block
 
 #navbar span
     color navbar-color
     font-size 1em
     text-transform lowercase
     font-family navbar-font
+    display inline-block
 
-#nb-header span
+#nb-header
     text-transform uppercase
+    display inline-block
 
 #nb-items
     float right
+    display inline-block
+    vertical-align center
 
-#nb-items *
-    padding-left 20px
+.dropbtn
+    background-color transparent
+    color color3
+    font-size 28px
+    border none
+    cursor pointer
 
-#nb-items a
+.dropbtn:hover
+    outline 0 !important
+
+.dropbtn:active
+    outline 0 !important
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown
+    position relative
+    display inline-block
+    
+.dropdown-content
+    display none
+    position absolute
+    background-color color4
+    min-width 160px
+    box-shadow 0px 8px 16px 0px rgba(0,0,0,0.2)
+    z-index 1
+    right 0
+
+.dropdown-content a
+    text-transform uppercase
     color navbar-color
+    padding: 12px 16px;
     text-decoration none
-
-#nb-items a:hover
+    display block
+    
+.dropdown-content a:hover
     color navbar-color
     text-decoration underline
     cursor pointer
+    opacity .8
+    background-color color3
 
-#nb-items a:active
-    color grey
-    text-decoration underline
+.dropdown-content a:active
+    opacity 1
+    
+.dropdown:hover .dropdown-content
+    display block
 
 //- PAGE CONTENT
 .content
     position relative
-    margin-top 65px
+    margin-top 90px
     padding-top 0px
     padding-bottom 0px
     border 0%
     width 100%
-    height calc(100% - 65px)
+    height calc(100% - 90px)
 
 h2
     font-family h2-font
