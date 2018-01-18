@@ -61,6 +61,7 @@ html, body
 #nb-items a:hover
     color navbar-color
     text-decoration underline
+    cursor pointer
 
 #nb-items a:active
     color grey
@@ -165,16 +166,20 @@ h2
     
 #buttons button:hover
     cursor pointer
-    opacity 0.8
+    background-color color4
+    color color1
+    opacity 0.85
     
 #buttons button:active
     opacity 1
     
 #path
+    float left
     margin-top 0px
     margin-bottom 0px
     width 100%
     height 10%
+    display inline-block
     
 #path button
     outline none
@@ -200,6 +205,11 @@ h2
     opacity 0.8
     
 #path button:active
+    opacity 1
+    
+button#find
+    color color1
+    background-color color4
     opacity 1
     
 .choice-block

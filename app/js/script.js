@@ -120,6 +120,60 @@ function storePosition(position) {
     })
 }
 
+// authentication
+function login() {
+  var data = {}
+  if (form.email.value) {
+    data.email = form.email.value
+  } else {
+    return displayError('Must provide email')
+  }
+  if (form.password.value) {
+    data.password = form.password.value
+  } else {
+    return displayError('Must provide password')
+  }
+
+  fetch('/login', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify(data)
+  }).then(function (res) {
+    if (!res.ok) {alert('ERROR')}
+    res.json()
+    .then(function (data) {
+      console.log('res: ' + JSON.stringify(data))
+      localStorage.token = data.token
+      localStorage._id = data.userId
+      console.log('localStorage.token: ' + localStorage.token + ' localStorage._id: ' + localStorage._id)
+      window.location = '/'
+    })
+  })
+  .catch(submitError)
+}
+
+function logout(id) {
+  console.log('logging out')
+  data = { _id: localStorage._id }
+  fetch('/logout', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify(data)
+  }).then(function (res) {
+    localStorage.removeItem('token')
+    localStorage.removeItem('_id')
+    window.location = '/login'
+  })
+  .catch(submitError)
+
+  return
+}
+
+
 var tree
 
 function makeTree(classesArray) {
@@ -193,11 +247,11 @@ function renderTree(node) {
   path_id.innerHTML = ''
 
   // start
-  var find_button = document.createElement('button')
-  find_button.setAttribute('style', 'clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)')
-  find_button.setAttribute('onclick', 'renderTree(\'tree[\\\'start\\\']\')')
-  find_button.innerHTML = 'START'
-  path_id.appendChild(find_button)
+  var start_button = document.createElement('button')
+  start_button.setAttribute('style', 'clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); opacity: .4')
+  start_button.setAttribute('onclick', 'renderTree(\'tree[\\\'start\\\']\')')
+  start_button.innerHTML = 'START'
+  path_id.appendChild(start_button)
 
   // other buttons
   // replace [ with .
@@ -221,10 +275,16 @@ function renderTree(node) {
       // renderTree(\'path_string\')
         // path_string: tree['start']
       path_button.setAttribute('onclick', 'renderTree(\'' + path_string + '\')')
-      path_button.setAttribute('style', 'opacity: ' + parseFloat(1-0.2*i))
+      path_button.setAttribute('style', 'opacity: ' + parseFloat(.4+0.1*(i)))
       path_id.appendChild(path_button)
     }
   }
+
+  var find_button = document.createElement('button')
+  find_button.setAttribute('id', 'find')
+  find_button.setAttribute('onclick', 'alert(\'hi\')')
+  find_button.innerHTML = 'FIND PEOPLE'
+  path_id.appendChild(find_button)
 
   return
 

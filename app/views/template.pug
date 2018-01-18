@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title= title || "Day to DaytaMatch"
+    title= title || "Encounter++"
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='/js/fetch.js')
     link(href="https://fonts.googleapis.com/css?family=Poiret+One|Raleway:200" rel="stylesheet")
@@ -15,7 +15,7 @@ html
                 span register
             a(href='/login')
                 span login
-            a(href='/logout')
+            a(onclick='logout()')
                 span logout
             
             #nb-profpic
