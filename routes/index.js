@@ -16,10 +16,6 @@ router.get('/login', (req, res, next) => {
 	return res.render('login')
 })
 
-router.get('/logout', (req, res, next) =>{
-  return res.render('register')
-})
-
 router.get('/register', (req, res, next) => {
     return res.render('register');
 });
@@ -40,10 +36,17 @@ router.post('/register', (req, res, next) => {
 
 router.post('/login', (req, res, next) => {
   request.post({
-      url: config.apiUrl + '/users',
+      url: config.apiUrl + '/auth/login',
       form: req.body
   }).pipe(res)
 })
 
+//-TODO logout
+router.post('/logout', (req, res, next) => {
+  request.post({
+    url: config.apiUrl + '/auth/logoff',
+    form: req.body
+  }).pipe(res)
+})
 
 module.exports = router;

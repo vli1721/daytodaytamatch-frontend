@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title= title || "Day to DaytaMatch"
+    title= title || "Encounter++"
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='/js/fetch.js')
     link(href="https://fonts.googleapis.com/css?family=Poiret+One|Raleway:200" rel="stylesheet")
@@ -9,13 +9,13 @@ html
     #navbar
         #nb-header
             a(href='/')
-                span home
+                img(src='/img/logo.png' alt='encounter++' height="80")
         #nb-items
             a(href='/register')
                 span register
             a(href='/login')
                 span login
-            a(href='/logout')
+            a(onclick='logout()')
                 span logout
             
             #nb-profpic
