@@ -31,9 +31,57 @@ function submitUser() {
     },
     method: 'POST',
     body: JSON.stringify(data)
-  }).then(submitSuccess)
+  }).then(function (data) {
+    submitSuccess(data)
+    window.location = '/classes'
+  })
   .catch(submitError)
 
+}
+
+function addClass() {
+  var course = ''
+  if (form.class.value) course = form.class.value
+  else displayError('Need to select a course')
+
+  var stored_courses
+  if (localStorage.courses) {
+    stored_courses = JSON.parse(localStorage.courses)
+    console.log('there are stored courses! ' + stored_courses)
+  } else {
+    console.log('no stored courses yet')
+    stored_courses = []
+  }
+  
+  stored_courses.push(course)
+  localStorage.setItem('courses', JSON.stringify(stored_courses))
+
+  window.location = '/classes'
+}
+
+function deleteClass(course) {
+  var courses = JSON.parse(localStorage.courses)
+  courses.map(function (el) {
+    el != course
+  })
+  localStorage.setItem('courses', JSON.stringify(courses))
+  renderClasses()
+}
+
+function renderClasses() {
+  var table_class = document.getElementsByClassName('table')[0]
+  var table = document.createElement('table')
+  table_class.appendChild(table)
+  var courses = JSON.parse(localStorage.courses)
+
+  for (i in courses) {
+    var row = document.createElement('tr')
+    var el = document.createElement('td')
+    el.innerHTML = courses[i] + ' <button class=\'x-button\' onclick=\'deleteClass(\'' + courses[i] + '\')\'>&#10006</button>'
+
+    row.appendChild(el)
+    table.appendChild(row)
+  }
 }
 
 /*=============================================
@@ -76,7 +124,6 @@ function displayError(message) {
     errorDiv.innerHTML = message;
     errorDiv.style.visibility = 'visible';
     */
-    console.log()
     alert(message.toString())
 }
 
@@ -282,7 +329,11 @@ function renderTree(node) {
   var find_button = document.createElement('button')
   find_button.setAttribute('id', 'find')
   find_button.setAttribute('onclick', 'alert(\'hi\')')
-  find_button.innerHTML = 'FIND PEOPLE'
+  if (path_arr.length == 2) {
+    find_button.innerHTML = 'SURPRISE ME'
+  } else {
+    find_button.innerHTML = 'FIND PEOPLE'
+  }
   path_id.appendChild(find_button)
 
   return
@@ -291,7 +342,3 @@ function renderTree(node) {
   // findPeopleNowButton(node)
 
 }
-
-
-
-
