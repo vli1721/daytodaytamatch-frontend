@@ -7,12 +7,22 @@ router.get('/', (req, res, next) => {
     return res.render('index');
 });
 
+
 router.get('/location', (req, res, next) => {
     return res.render('getGeolocationDemo');
 });
+
 router.get('/login', (req, res, next) => {
 	return res.render('login')
 })
+
+router.get('/logout', (req, res, next) =>{
+  return res.render('register')
+})
+
+router.get('/register', (req, res, next) => {
+    return res.render('register');
+});
 
 router.put('/location', (req, res, next) => {
   request.put({
@@ -28,6 +38,12 @@ router.post('/register', (req, res, next) => {
   }).pipe(res)
 })
 
+router.post('/login', (req, res, next) => {
+  request.post({
+      url: config.apiUrl + '/users',
+      form: req.body
+  }).pipe(res)
+})
 
 
 module.exports = router;

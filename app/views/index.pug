@@ -2,48 +2,11 @@ extends template
 
 block content
     .content
-        #js-error-message.error-message
-        form
-            .form-box(style='text-align:center')
-                h2 REGISTER
-                .fb-item
-                    br
-                    input(type='text' name='firstName' placeholder='first name')
-                .fb-item
-                    br
-                    input(type='text' name='lastName' placeholder='last name')
-                .fb-item
-                    br
-                    input(type='email' name='email' placeholder='email') 
-                .fb-item
-                    br
-                    input(type='password' name='password' placeholder='password')
-                .fb-item
-                    br
-                    input(type='password' name='confirm' placeholder='confirm password')
-                .fb-item
-                    br
-                    input(type='number' name='phone' placeholder='phone number')
-                .fb-item
-                    br
-                    input(type='number' name='classYear' placeholder='class year')
-                .fb-item
-                    br
-                    input(type='text' name='house' placeholder='house')
-                .fb-item
-                    br
-                    select(name='interests')
-                        option(value=a) a
-                        option(value=b) b
-                        option(value=c) c
-                br
-                button#submit(type='button' onclick='submitUser()') JOIN
-
-        .modal#js-success
-            .modal-content
-                h2 Thank you for registering!
-
-
-
-
-
+        .choice-block
+            #buttons
+                // child buttons
+            #path
+                // button onclick('render(node)')
+block postscript
+    script.
+        renderTree('tree[\'start\']')

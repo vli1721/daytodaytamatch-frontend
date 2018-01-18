@@ -118,3 +118,120 @@ function storePosition(position) {
         console.error(err)
     })
 }
+
+var tree
+
+function makeTree(classesArray) {
+  // initialize tree
+  // level 0
+  tree = { start: {} }
+
+  // level 1
+  tree.start = {
+    work: {},
+    play: {},
+    eat: {}
+  }
+
+  // level 2
+  for (i in classesArray) {
+    tree.start.work[classesArray[i]] = {}
+  }
+
+  tree.start.play = {
+    chill: {},
+    tv: {},
+    workout: {},
+    'board games': {},
+    'video games': {}
+  }
+
+  tree.start.eat = {
+    dhall: {},
+    'eat out': {}
+  }
+  // level 3
+  console.log(tree.start.work)
+  for (i in tree.start.work) {
+    tree.start.work[i] = {
+      hw: {},
+      study: {}
+    }
+  }
+  console.log('made tree: ' + JSON.stringify(tree))
+}
+
+// dynamically render form options
+function renderTree(node) {
+
+  if (!tree) {
+    // fetch classes
+    console.log("making tree")
+    makeTree(['ls1a', 'ec10a', 'cs50', 'sls20'])
+  }
+
+  var options = []
+  for (i in eval(node))
+    options.push(i)
+
+  console.log("options [" + options + "], number of buttons needed: " + options.length)
+
+  var buttons = document.getElementById('buttons')
+  buttons.innerHTML = ''
+  
+  for (i in options) {
+    var option = document.createElement('button')
+    option.innerHTML = options[i]
+    option.setAttribute('onclick', 'renderTree(\'' + node.replace(/'/g, '\\\'') + '[\\\'' + options[i] + '\\\']' + '\')')
+    var height = 100 / options.length
+    option.setAttribute('style', 'height: ' + height + '%;' + 'font-size: ' + (parseFloat(height)/2.5).toString() + 'vh')
+    buttons.appendChild(option)
+  }
+
+  var path_id = document.getElementById('path')
+  path_id.innerHTML = ''
+
+  // start
+  var find_button = document.createElement('button')
+  find_button.setAttribute('style', 'clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)')
+  find_button.setAttribute('onclick', 'renderTree(\'tree[\\\'start\\\']\')')
+  find_button.innerHTML = 'START'
+  path_id.appendChild(find_button)
+
+  // other buttons
+  // replace [ with .
+  node = node.replace(/\[/g, '.')
+  // remove ] and '
+  node = node.replace(/\]/g, '')
+  node = node.replace(/\'/g, '')
+
+  var arr = node.split('.')
+  console.log('replaced node: ' + arr + ' length: ' + arr.length)
+  var path_arr = arr // node.split('.')
+  for (i in path_arr) {
+    if (i > 1) {
+      var path_button = document.createElement('button')
+      path_button.innerHTML = path_arr[i].toUpperCase()
+      // making path with brackets
+      var path_string = path_arr[0]
+      for (var ind = 1; ind < parseInt(i) + 1; ind++) {
+        path_string += '[\\\'' + path_arr[ind] + '\\\']'
+      }
+      // renderTree(\'path_string\')
+        // path_string: tree['start']
+      path_button.setAttribute('onclick', 'renderTree(\'' + path_string + '\')')
+      path_button.setAttribute('style', 'opacity: ' + parseFloat(1-0.2*i))
+      path_id.appendChild(path_button)
+    }
+  }
+
+  return
+
+  // tree.findNode(node)
+  // findPeopleNowButton(node)
+
+}
+
+
+
+
