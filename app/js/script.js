@@ -155,7 +155,7 @@ function makeTree(classesArray) {
   console.log(tree.start.work)
   for (i in tree.start.work) {
     tree.start.work[i] = {
-      homework: {},
+      hw: {},
       study: {}
     }
   }
@@ -180,19 +180,12 @@ function renderTree(node) {
   var buttons = document.getElementById('buttons')
   buttons.innerHTML = ''
   
-  if (options.length < 4) {
-    // horizontal layout
-  } else if (options.length == 4) {
-    // 2x2
-  } else {
-    // vertical layout
-  }
   for (i in options) {
     var option = document.createElement('button')
     option.innerHTML = options[i]
     option.setAttribute('onclick', 'renderTree(\'' + node.replace(/'/g, '\\\'') + '[\\\'' + options[i] + '\\\']' + '\')')
     var height = 100 / options.length
-    option.setAttribute('style', 'height: ' + height + '%')
+    option.setAttribute('style', 'height: ' + height + '%;' + 'font-size: ' + (parseFloat(height)/2.5).toString() + 'vh')
     buttons.appendChild(option)
   }
 
