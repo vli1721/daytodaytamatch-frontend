@@ -483,7 +483,12 @@ function findNearby() {
       .then(function (users) {
           var foundUsersHTML = ""
           for (bc = 0; bc < users.length; bc++) {
-              foundUsersHTML += "<h2>" + users[bc].firstName + "</h2>"
+              foundUsersHTML += "<h2>" + users[bc].firstName + " " + users[bc].lastName + "</h2>"
+              foundUsersHTML += "<p>Phone Number: " + formatPhoneNumber(String(users[bc].phoneNumber)) + "</p>"
+              foundUsersHTML += "<p>Distance: " + users[bc].distance + " mi away</p>"
+              foundUsersHTML += "<p>Interests: " + users[bc].interests.toString().replace(/,/g, ', ') + "</p>"
+              foundUsersHTML += "<p>Classes: " + users[bc].classes.toString().replace(/,/g, ', ') + "</p>"
+              foundUsersHTML += "<br>"
           }
           var modalFound = document.getElementById('found-users')
           var modalFoundContent = document.getElementById('found-users-content')
@@ -493,6 +498,12 @@ function findNearby() {
     })
     .catch(submitError)
 
+}
+
+function formatPhoneNumber(s) {
+  var s2 = (""+s).replace(/\D/g, '');
+  var m = s2.match(/^(\d{3})(\d{3})(\d{4})$/);
+  return (!m) ? null : "(" + m[1] + ") " + m[2] + "-" + m[3];
 }
 
 
