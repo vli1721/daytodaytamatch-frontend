@@ -31,7 +31,10 @@ function submitUser() {
     },
     method: 'POST',
     body: JSON.stringify(data)
-  }).then(submitSuccess)
+  }).then(function (data) {
+    submitSuccess(data)
+    window.location = '/classes'
+  })
   .catch(submitError)
 
 }
@@ -44,9 +47,7 @@ function addClass() {
   var stored_courses
   if (localStorage.courses) {
     stored_courses = JSON.parse(localStorage.courses)
-    console.log('there are stored courses! ' + stored_courses)
   } else {
-    console.log('no stored courses yet')
     stored_courses = []
   }
   
@@ -128,6 +129,45 @@ function submitError(res, message) {
         return displayError(message);
 }
 
+var x = document.getElementById("demo");
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(storePosition)
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function storePosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+
+    var userLocation = {
+        id: localStorage.id,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+    }
+    fetch('/location', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify(userLocation)
+    }).then(function(res) {
+        if (!res.ok) {
+            res.text().then(function(message) {
+                alert(message)
+            })
+        }
+        res.json().then(function(data) {
+            alert("location stored")
+            window.location = '/'
+        })
+    }).catch(function(err) {
+        console.error(err)
+    })
+}
+
 function displayError(message) {
     /*
     var errorDiv = document.getElementById('js-error-message');
@@ -163,8 +203,7 @@ function login() {
     res.json()
     .then(function (data) {
       console.log('res: ' + JSON.stringify(data))
-      localStorage.token = data.token
-      localStorage._id = data.userId
+      localStorage.clear()
       console.log('localStorage.token: ' + localStorage.token + ' localStorage._id: ' + localStorage._id)
       window.location = '/'
     })
@@ -332,8 +371,12 @@ function renderTree(node) {
 
   var find_button = document.createElement('button')
   find_button.setAttribute('id', 'find')
-  find_button.setAttribute('onclick', 'storeLocation(findNearby)')
-  find_button.innerHTML = 'FIND PEOPLE'
+  find_button.setAttribute('onclick', 'alert(\'hi\')')
+  if (path_arr.length == 2) {
+    find_button.innerHTML = 'SURPRISE ME'
+  } else {
+    find_button.innerHTML = 'FIND PEOPLE'
+  }
   path_id.appendChild(find_button)
 
   return
