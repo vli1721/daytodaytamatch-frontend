@@ -31,61 +31,9 @@ function submitUser() {
     },
     method: 'POST',
     body: JSON.stringify(data)
-  }).then(function (data) {
-    submitSuccess(data)
-    window.location = '/classes'
-  })
+  }).then(submitSuccess)
   .catch(submitError)
 
-}
-
-function addClass() {
-  var course = ''
-  if (form.class.value) course = form.class.value
-  else displayError('Need to select a course')
-
-  var stored_courses
-  if (localStorage.courses) {
-    stored_courses = JSON.parse(localStorage.courses)
-    console.log('there are stored courses! ' + stored_courses)
-  } else {
-    console.log('no stored courses yet')
-    stored_courses = []
-  }
-  
-  stored_courses.push(course)
-  localStorage.setItem('courses', JSON.stringify(stored_courses))
-
-  window.location = '/classes'
-}
-
-function deleteClass(course) {
-  var courses = JSON.parse(localStorage.courses)
-  console.log('courses: ' + courses)
-  courses.map(function (el) {
-    el != course
-  })
-  localStorage.setItem('courses', JSON.stringify(courses))
-  renderClasses()
-}
-
-function renderClasses() {
-  var table_class = document.getElementsByClassName('table')[0]
-  table_class.innerHTML = ''
-  var table = document.createElement('table')
-  table_class.appendChild(table)
-  var courses = JSON.parse(localStorage.courses)
-
-  for (i in courses) {
-    var row = document.createElement('tr')
-    var el = document.createElement('td')
-    console.log('courses[i]: ' + courses[i])
-    var course_str = '\"' + courses[i] + '\"'
-    el.innerHTML = courses[i] + '<button class=\'x-button\' onclick=\'deleteClass(' + course_str + ')\'>&#10006</button>'
-
-    row.appendChild(el)
-    table.appendChild(row)
-  }
 }
 
 /*=============================================
@@ -128,6 +76,7 @@ function displayError(message) {
     errorDiv.innerHTML = message;
     errorDiv.style.visibility = 'visible';
     */
+    console.log()
     alert(message.toString())
 }
 
@@ -214,8 +163,7 @@ function logout(id) {
     method: 'POST',
     body: JSON.stringify(data)
   }).then(function (res) {
-    localStorage.removeItem('token')
-    localStorage.removeItem('_id')
+    localStorage.clear()
     window.location = '/login'
   })
   .catch(submitError)
@@ -268,7 +216,6 @@ function makeTree(classesArray) {
 
 // dynamically render form options
 function renderTree(node) {
-
   if (!tree) {
     // fetch classes
     console.log("making tree")
@@ -283,7 +230,7 @@ function renderTree(node) {
 
   var buttons = document.getElementById('buttons')
   buttons.innerHTML = ''
-  
+
   for (i in options) {
     var option = document.createElement('button')
     option.innerHTML = options[i]
@@ -309,6 +256,7 @@ function renderTree(node) {
   // remove ] and '
   node = node.replace(/\]/g, '')
   node = node.replace(/\'/g, '')
+  localStorage.status = node
 
   var arr = node.split('.')
   console.log('replaced node: ' + arr + ' length: ' + arr.length)
@@ -332,17 +280,37 @@ function renderTree(node) {
 
   var find_button = document.createElement('button')
   find_button.setAttribute('id', 'find')
-  find_button.setAttribute('onclick', 'alert(\'hi\')')
-  if (path_arr.length == 2) {
-    find_button.innerHTML = 'SURPRISE ME'
-  } else {
-    find_button.innerHTML = 'FIND PEOPLE'
-  }
+  find_button.setAttribute('onclick', 'findNearby()')
+  find_button.innerHTML = 'FIND PEOPLE'
   path_id.appendChild(find_button)
 
   return
 
   // tree.findNode(node)
   // findPeopleNowButton(node)
+
+}
+
+function findNearby() {
+    var findData = {
+        id: localStorage._id,
+        status: localStorage.status
+    }
+
+    fetch('/find-nearby', {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.token
+      },
+      method: 'PUT',
+      body: JSON.stringify(findData)
+    }).then(function (res) {
+      if (!res.ok) {alert('ERROR')}
+      res.json()
+      .then(function (users) {
+          alert(JSON.stringify(users))
+      })
+    })
+    .catch(submitError)
 
 }

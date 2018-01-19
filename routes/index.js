@@ -20,16 +20,20 @@ router.get('/register', (req, res, next) => {
     return res.render('register');
 });
 
-router.get('/classes', (req, res, next) => {
-  return res.render('classes')
-})
-
 router.put('/location', (req, res, next) => {
   request.put({
       url: config.apiUrl + '/update-location',
       form: req.body
   }).pipe(res)
 })
+
+router.put('/find-nearby', (req, res, next) => {
+  request.put({
+      url: config.apiUrl + '/find-nearby',
+      form: req.body
+  }).pipe(res)
+})
+
 
 router.post('/register', (req, res, next) => {
   request.post({
