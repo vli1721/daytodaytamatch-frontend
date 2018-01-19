@@ -237,7 +237,7 @@ function login() {
     .then(function (data) {
       localStorage.token = data.token
       localStorage._id = data.userId
-      localStorage.courses = data.classes
+      localStorage.courses = JSON.stringify(String(data.classes).split(","))
       localStorage.firstName = data.firstName
       localStorage.lastName = data.lastName
       localStorage.phoneNumber = data.phoneNumber
@@ -348,6 +348,8 @@ function renderHamburger() {
         hamburger.innerHTML += '<a href="/login"><span>login</span></a>'
         hamburger.innerHTML += '<a href="/register"><span>register</span></a>'
     } else {
+        hamburger.innerHTML += '<a href="/classes"><span>update classes</span></a>'
+        hamburger.innerHTML += '<a href="/interests"><span>update interests</span></a>'
         hamburger.innerHTML += '<a href="/update"><span>update profile</span></a>'
         hamburger.innerHTML += '<a onclick="logout()"><span>logout</span></a>'
     }

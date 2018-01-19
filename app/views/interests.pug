@@ -9,7 +9,7 @@ block content
         br
         br
     .form-box
-        form(onload='checkLoggedIn()')
+        form
             .fb-item
                 input(list='interests' name='interest' placeholder='Interests')
                 -var values = ['Reading', 'Watching TV', 'Movies', 'Fishing', 'Gardening', 'Working Out', 'Music', 'Sports', 'Traveling', 'Hiking', 'Cooking', 'Writing', 'Activism', 'Feminism', 'Running', 'Dancing', 'Swimming', 'Theater', 'Bitcoin', 'Blockchain', 'Cloud Computing', 'EECS', 'The Business Side', 'Professional Networking', 'Wine', 'Shopping', 'Thrift Shopping', 'Fashion', 'Food', 'Memes', 'Soccer', 'Football', 'Tennis', 'Gymnastics', 'Philosophy', 'Coding', 'The Feminine Mystique', 'Yoga', 'Pilates', 'Gaming', 'Sewing', 'Cryptography', 'Wellness', 'Photography', 'Art', 'Birdwatching', 'Astrology', 'Go', 'Chess', 'Surfing', 'Extreme Sports']
@@ -24,5 +24,7 @@ block content
             button#submit
 
 block postscript
+    script.
+        checkLoggedIn()
     script.
         renderInterests()
