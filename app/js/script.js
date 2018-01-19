@@ -80,45 +80,6 @@ function displayError(message) {
     alert(message.toString())
 }
 
-var x = document.getElementById("demo");
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(storePosition)
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-
-function storePosition(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude +
-    "<br>Longitude: " + position.coords.longitude;
-
-    var userLocation = {
-        id: localStorage.id,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-    }
-    fetch('/location', {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'PUT',
-        body: JSON.stringify(userLocation)
-    }).then(function(res) {
-        if (!res.ok) {
-            res.text().then(function(message) {
-                alert(message)
-            })
-        }
-        res.json().then(function(data) {
-            alert("location stored")
-            window.location = '/'
-        })
-    }).catch(function(err) {
-        console.error(err)
-    })
-}
-
 // authentication
 function login() {
   var data = {}
@@ -280,7 +241,7 @@ function renderTree(node) {
 
   var find_button = document.createElement('button')
   find_button.setAttribute('id', 'find')
-  find_button.setAttribute('onclick', 'findNearby()')
+  find_button.setAttribute('onclick', 'storeLocation(findNearby)')
   find_button.innerHTML = 'FIND PEOPLE'
   path_id.appendChild(find_button)
 
@@ -291,10 +252,24 @@ function renderTree(node) {
 
 }
 
+function storeLocation(callback) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            localStorage.latitude = position.coords.latitude
+            localStorage.longitude = position.coords.longitude
+            callback()
+        })
+    } else {
+        alert("Geolocation is not supported by this browser.")
+    }
+}
+
 function findNearby() {
     var findData = {
         id: localStorage._id,
-        status: localStorage.status
+        status: localStorage.status,
+        latitude: localStorage.latitude,
+        longitude: localStorage.longitude
     }
 
     fetch('/find-nearby', {
@@ -308,7 +283,14 @@ function findNearby() {
       if (!res.ok) {alert('ERROR')}
       res.json()
       .then(function (users) {
-          alert(JSON.stringify(users))
+          var foundUsersHTML = ""
+          for (bc = 0; bc < users.length; bc++) {
+              foundUsersHTML += "<h2>" + users[bc].firstName + "</h2>"
+          }
+          var modalFound = document.getElementById('found-users')
+          var modalFoundContent = document.getElementById('found-users-content')
+          modalFound.style.display = 'block';
+          modalFoundContent.innerHTML = foundUsersHTML
       })
     })
     .catch(submitError)

@@ -7,11 +7,6 @@ router.get('/', (req, res, next) => {
     return res.render('index');
 });
 
-
-router.get('/location', (req, res, next) => {
-    return res.render('getGeolocationDemo');
-});
-
 router.get('/login', (req, res, next) => {
 	return res.render('login')
 })
