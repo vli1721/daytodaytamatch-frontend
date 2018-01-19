@@ -32,7 +32,7 @@ function submitUser() {
     method: 'POST',
     body: JSON.stringify(data)
   }).then(function (data) {
-    window.location = '/classes'
+    window.location = '/'
   })
   .catch(submitError)
 
