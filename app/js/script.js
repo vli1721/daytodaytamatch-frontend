@@ -74,7 +74,11 @@ function renderClasses() {
   table_class.innerHTML = ''
   var table = document.createElement('table')
   table_class.appendChild(table)
-  var courses = JSON.parse(localStorage.courses)
+
+  var courses = []
+  if (localStorage.courses) {
+    courses = JSON.parse(localStorage.courses)
+  }
 
   for (i in courses) {
     var row = document.createElement('tr')
@@ -93,6 +97,29 @@ function renderClasses() {
     row.appendChild(el)
     table.appendChild(row)
   }
+  var save = document.getElementById('saveClasses')
+  save.innerHTML = '<button id=\'submit\' onclick=\'updateClasses()\'>UPDATE CLASSES</button>'
+}
+
+function updateClasses() {
+  //-TODO FINISH THIS
+  var data = { 'classes' : localStorage.courses }
+  fetch('/update', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify(data)
+  }).then(function (res) {
+    if (!res.ok) {alert('ERROR')}
+    res.json()
+    .then(function (data) {
+      console.log('res: ' + JSON.stringify(data))
+      console.log('localStorage.token: ' + localStorage.token + ' localStorage._id: ' + localStorage._id)
+      window.location = '/'
+    })
+  })
+  .catch(submitError)
 }
 
 /*=============================================
@@ -203,7 +230,15 @@ function login() {
     res.json()
     .then(function (data) {
       console.log('res: ' + JSON.stringify(data))
-      localStorage.clear()
+      localStorage.token = data.token
+      localStorage._id = data.userId
+      localStorage.courses = data.classes
+      localStorage.firstName = data.firstName
+      localStorage.lastName = data.lastName
+      localStorage.phoneNumber = data.phoneNumber
+      localStorage.classYear = data.classYear
+      localStorage.house = data.house
+
       console.log('localStorage.token: ' + localStorage.token + ' localStorage._id: ' + localStorage._id)
       window.location = '/'
     })
@@ -211,9 +246,9 @@ function login() {
   .catch(submitError)
 }
 
-function logout(id) {
+function logout() {
   console.log('logging out')
-  data = { _id: localStorage._id }
+  data = { id: localStorage._id }
   fetch('/logout', {
     headers: {
       'Content-Type': 'application/json',
@@ -232,14 +267,11 @@ function logout(id) {
 
 //update user's basic fields
 
-function update(){
+function update() {
   var data = {}
   // checks for new values of fields
   if (form.firstName.value) data.firstName = form.firstName.value
   if (form.lastName.value) data.lastName = form.lastName.value
-  if (form.email.value) data.email = form.email.value
-  if (form.password.value) data.password = form.password.value
-  if (form.confirm.value) data.confirm = form.confirm.value
   if (form.phone.value) data.phoneNumber = form.phone.value
   if (form.classYear.value) data.classYear = form.classYear.value
   if (form.house.value) data.house = form.house.value
@@ -371,7 +403,7 @@ function renderTree(node) {
 
   var find_button = document.createElement('button')
   find_button.setAttribute('id', 'find')
-  find_button.setAttribute('onclick', 'alert(\'hi\')')
+  find_button.setAttribute('onclick', 'storeLocation(findNearby)')
   if (path_arr.length == 2) {
     find_button.innerHTML = 'SURPRISE ME'
   } else {
@@ -414,7 +446,7 @@ function findNearby() {
       method: 'PUT',
       body: JSON.stringify(findData)
     }).then(function (res) {
-      if (!res.ok) {alert('ERROR')}
+      if (!res.ok) {console.log(res); alert('ERROR')}
       res.json()
       .then(function (users) {
           var foundUsersHTML = ""
