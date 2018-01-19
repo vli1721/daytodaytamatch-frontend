@@ -53,8 +53,15 @@ router.post('/logout', (req, res, next) => {
 })
 
 
-// router.put('/updateInterest', (req, res, next) => {
-//   request.put
+router.get('/update', (req, res, next) => {
+  return res.render('update')
+})
 
-// })
+router.put('/update', (req, res, next) => {
+  request.put({
+    url: config.apiUrl + '/users',
+    form: req.body
+  }).pipe(res)
+
+})
 module.exports = router;

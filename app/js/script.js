@@ -133,6 +133,39 @@ function logout(id) {
 }
 
 
+//update user's basic fields
+
+function update(){
+  var data = {}
+  // checks for new values of fields
+  if (form.firstName.value) data.firstName = form.firstName.value
+  if (form.lastName.value) data.lastName = form.lastName.value
+  if (form.email.value) data.email = form.email.value
+  if (form.password.value) data.password = form.password.value
+  if (form.confirm.value) data.confirm = form.confirm.value
+  if (form.phone.value) data.phoneNumber = form.phone.value
+  if (form.classYear.value) data.classYear = form.classYear.value
+  if (form.house.value) data.house = form.house.value
+
+  fetch('/update', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify(data)
+  }).then(function (res) {
+    if (!res.ok) {alert('ERROR')}
+    res.json()
+    .then(function (data) {
+      console.log('res: ' + JSON.stringify(data))
+      console.log('localStorage.token: ' + localStorage.token + ' localStorage._id: ' + localStorage._id)
+      window.location = '/'
+    })
+  })
+  .catch(submitError)
+}
+
+
 var tree
 
 function makeTree(classesArray) {
