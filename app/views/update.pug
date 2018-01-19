@@ -14,15 +14,6 @@ block content
                     input(type='text' name='lastName' placeholder='new last name')
                 .fb-item
                     br
-                    input(type='email' name='email' placeholder='new email') 
-                .fb-item
-                    br
-                    input(type='password' name='password' placeholder='new password')
-                .fb-item
-                    br
-                    input(type='password' name='confirm' placeholder='confirm new password')
-                .fb-item
-                    br
                     input(type='number' name='phone' placeholder='new phone number')
                 .fb-item
                     br
@@ -35,4 +26,7 @@ block content
 
         .modal#js-success
             .modal-content
-                h2 Thank you for registering!
+                h2 Update successful!          
+block postscript
+    script.
+        checkLoggedIn()
