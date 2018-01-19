@@ -42,7 +42,11 @@ function submitUser() {
 function addClass() {
   var course = ''
   if (form.class.value) course = form.class.value
-  else displayError('Need to select a course')
+  else {
+    displayError('Need to select a course')
+    window.location = '/classes'
+    return
+  }
 
   var stored_courses
   if (localStorage.courses) {
@@ -55,6 +59,7 @@ function addClass() {
   localStorage.setItem('courses', JSON.stringify(stored_courses))
 
   window.location = '/classes'
+  return
 }
 
 function deleteClass(course) {
@@ -103,7 +108,8 @@ function renderClasses() {
 
 function updateClasses() {
   //-TODO FINISH THIS
-  var data = { 'classes' : localStorage.courses }
+  var data = { 'classes' : localStorage.courses, 'id': localStorage._id }
+  console.log('classes: ' + JSON.stringify(data))
   fetch('/update', {
     headers: {
       'Content-Type': 'application/json',
@@ -111,7 +117,7 @@ function updateClasses() {
     method: 'PUT',
     body: JSON.stringify(data)
   }).then(function (res) {
-    if (!res.ok) {alert('ERROR')}
+    if (!res.ok) {alert('ERROR!')}
     res.json()
     .then(function (data) {
       console.log('res: ' + JSON.stringify(data))
@@ -272,6 +278,7 @@ function update() {
   if (form.phone.value) data.phoneNumber = form.phone.value
   if (form.classYear.value) data.classYear = form.classYear.value
   if (form.house.value) data.house = form.house.value
+  data.id = localStorage._id
 
   fetch('/update', {
     headers: {
