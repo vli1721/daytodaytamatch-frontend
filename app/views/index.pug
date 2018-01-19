@@ -8,7 +8,11 @@ block content
             #path
                 // button onclick('render(node)')
     .modal#found-users
-        .modal-content#found-users-content
+        #modal-header
+            <span class='close' onclick='hideModal()' style='cursor: pointer'>&times;</span>
+            #mheader-text
+        #modal-body
+            #mbody-text
 block postscript
     script.
         renderTree('tree[\'start\']')

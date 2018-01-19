@@ -489,17 +489,33 @@ function findNearby() {
       res.json()
       .then(function (users) {
           var foundUsersHTML = ""
-          for (bc = 0; bc < users.length; bc++) {
-              foundUsersHTML += "<h2>" + users[bc].firstName + "</h2>"
+
+          if (users.length == 0) {
+            users = [{ 'firstName' : 'Fred', 'lastName': 'Williams', 'phoneNumber': '1234567890'}]
           }
+
+          for (bc = 0; bc < users.length; bc++) {
+              foundUsersHTML += "<span>" + users[bc].firstName + ' ' + users[bc].lastName + ': ' + users[bc].phoneNumber + "<span>"
+          }
+
           var modalFound = document.getElementById('found-users')
-          var modalFoundContent = document.getElementById('found-users-content')
+
+          var modalHeaderText = document.getElementById('mheader-text')
+          modalHeaderText.innerHTML = 'Matches'
+
+          var modalBodyText = document.getElementById('mbody-text')
+          modalBodyText.innerHTML = foundUsersHTML
+
           modalFound.style.display = 'block';
-          modalFoundContent.innerHTML = foundUsersHTML
       })
     })
     .catch(submitError)
 
+}
+
+function hideModal() {
+  document.getElementById('found-users').style.display = 'none'
+  return
 }
 
 
