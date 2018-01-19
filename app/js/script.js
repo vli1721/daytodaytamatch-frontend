@@ -31,9 +31,68 @@ function submitUser() {
     },
     method: 'POST',
     body: JSON.stringify(data)
-  }).then(submitSuccess)
+  }).then(function (data) {
+    submitSuccess(data)
+    window.location = '/classes'
+  })
   .catch(submitError)
 
+}
+
+function addClass() {
+  var course = ''
+  if (form.class.value) course = form.class.value
+  else displayError('Need to select a course')
+
+  var stored_courses
+  if (localStorage.courses) {
+    stored_courses = JSON.parse(localStorage.courses)
+  } else {
+    stored_courses = []
+  }
+  
+  stored_courses.push(course)
+  localStorage.setItem('courses', JSON.stringify(stored_courses))
+
+  window.location = '/classes'
+}
+
+function deleteClass(course) {
+  var courses = JSON.parse(localStorage.courses)
+  console.log('courses before deleting ' + course + ': ' + courses)
+  courses = courses.filter(function (el) {
+    console.log('el: ' + el + ' course: ' + course)
+    return el !== course
+  })
+  localStorage.setItem('courses', JSON.stringify(courses))
+  console.log('courses after deleting: ' + courses)
+  renderClasses()
+}
+
+function renderClasses() {
+  var table_class = document.getElementsByClassName('table')[0]
+  table_class.innerHTML = ''
+  var table = document.createElement('table')
+  table_class.appendChild(table)
+  var courses = JSON.parse(localStorage.courses)
+
+  for (i in courses) {
+    var row = document.createElement('tr')
+    var el = document.createElement('td')
+    console.log('courses[i]: ' + courses[i])
+    var course_str = '\"' + courses[i] + '\"'
+    el.innerHTML = courses[i] + '<button class=\'x-button\' onclick=\'deleteClass(' + course_str + ')\'>&#10006</button>'
+
+    row.appendChild(el)
+    table.appendChild(row)
+  }
+  if (courses.length == 0) {
+    var row = document.createElement('tr')
+    var el = document.createElement('td')
+    el.innerHTML = 'no courses yet'
+    row.appendChild(el)
+    table.appendChild(row)
+  }
 }
 
 /*=============================================
@@ -68,6 +127,45 @@ function submitError(res, message) {
         return res.text().then(function(message) {displayError(message)});
     if (message)
         return displayError(message);
+}
+
+var x = document.getElementById("demo");
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(storePosition)
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function storePosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+
+    var userLocation = {
+        id: localStorage.id,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+    }
+    fetch('/location', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify(userLocation)
+    }).then(function(res) {
+        if (!res.ok) {
+            res.text().then(function(message) {
+                alert(message)
+            })
+        }
+        res.json().then(function(data) {
+            alert("location stored")
+            window.location = '/'
+        })
+    }).catch(function(err) {
+        console.error(err)
+    })
 }
 
 function displayError(message) {
@@ -105,8 +203,7 @@ function login() {
     res.json()
     .then(function (data) {
       console.log('res: ' + JSON.stringify(data))
-      localStorage.token = data.token
-      localStorage._id = data.userId
+      localStorage.clear()
       console.log('localStorage.token: ' + localStorage.token + ' localStorage._id: ' + localStorage._id)
       window.location = '/'
     })
@@ -274,8 +371,12 @@ function renderTree(node) {
 
   var find_button = document.createElement('button')
   find_button.setAttribute('id', 'find')
-  find_button.setAttribute('onclick', 'storeLocation(findNearby)')
-  find_button.innerHTML = 'FIND PEOPLE'
+  find_button.setAttribute('onclick', 'alert(\'hi\')')
+  if (path_arr.length == 2) {
+    find_button.innerHTML = 'SURPRISE ME'
+  } else {
+    find_button.innerHTML = 'FIND PEOPLE'
+  }
   path_id.appendChild(find_button)
 
   return
