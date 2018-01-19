@@ -1,0 +1,38 @@
+extends template
+
+block content
+    .content
+        #js-error-message.error-message
+        form
+            .form-box(style='text-align:center')
+                h2 update profile
+                .fb-item
+                    br
+                    input(type='text' name='firstName' placeholder='new first name')
+                .fb-item
+                    br
+                    input(type='text' name='lastName' placeholder='new last name')
+                .fb-item
+                    br
+                    input(type='email' name='email' placeholder='new email') 
+                .fb-item
+                    br
+                    input(type='password' name='password' placeholder='new password')
+                .fb-item
+                    br
+                    input(type='password' name='confirm' placeholder='confirm new password')
+                .fb-item
+                    br
+                    input(type='number' name='phone' placeholder='new phone number')
+                .fb-item
+                    br
+                    input(type='number' name='classYear' placeholder='new class year')
+                .fb-item
+                    br
+                    input(type='text' name='house' placeholder='new house')
+                br
+                button#submit(type='button' onclick='update()') NEXT
+
+        .modal#js-success
+            .modal-content
+                h2 Thank you for registering!
