@@ -49,4 +49,9 @@ router.post('/logout', (req, res, next) => {
   }).pipe(res)
 })
 
+
+// router.put('/updateInterest', (req, res, next) => {
+//   request.put
+
+// })
 module.exports = router;
