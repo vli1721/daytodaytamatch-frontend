@@ -61,6 +61,7 @@ function addClass() {
 
 function deleteClass(course) {
   var courses = JSON.parse(localStorage.courses)
+  console.log('courses: ' + courses)
   courses.map(function (el) {
     el != course
   })
@@ -70,6 +71,7 @@ function deleteClass(course) {
 
 function renderClasses() {
   var table_class = document.getElementsByClassName('table')[0]
+  table_class.innerHTML = ''
   var table = document.createElement('table')
   table_class.appendChild(table)
   var courses = JSON.parse(localStorage.courses)
@@ -77,7 +79,9 @@ function renderClasses() {
   for (i in courses) {
     var row = document.createElement('tr')
     var el = document.createElement('td')
-    el.innerHTML = courses[i] + ' <button class=\'x-button\' onclick=\'deleteClass(\'' + courses[i] + '\')\'>&#10006</button>'
+    console.log('courses[i]: ' + courses[i])
+    var course_str = '\"' + courses[i] + '\"'
+    el.innerHTML = courses[i] + '<button class=\'x-button\' onclick=\'deleteClass(' + course_str + ')\'>&#10006</button>'
 
     row.appendChild(el)
     table.appendChild(row)
