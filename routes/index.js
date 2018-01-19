@@ -7,11 +7,6 @@ router.get('/', (req, res, next) => {
     return res.render('index');
 });
 
-
-router.get('/location', (req, res, next) => {
-    return res.render('getGeolocationDemo');
-});
-
 router.get('/login', (req, res, next) => {
 	return res.render('login')
 })
@@ -20,16 +15,13 @@ router.get('/register', (req, res, next) => {
     return res.render('register');
 });
 
-router.get('/classes', (req, res, next) => {
-  return res.render('classes')
-})
-
-router.put('/location', (req, res, next) => {
+router.put('/find-nearby', (req, res, next) => {
   request.put({
-      url: config.apiUrl + '/update-location',
+      url: config.apiUrl + '/find-nearby',
       form: req.body
   }).pipe(res)
 })
+
 
 router.post('/register', (req, res, next) => {
   request.post({
@@ -53,4 +45,16 @@ router.post('/logout', (req, res, next) => {
   }).pipe(res)
 })
 
+
+router.get('/update', (req, res, next) => {
+  return res.render('update')
+})
+
+router.put('/update', (req, res, next) => {
+  request.put({
+    url: config.apiUrl + '/users',
+    form: req.body
+  }).pipe(res)
+
+})
 module.exports = router;

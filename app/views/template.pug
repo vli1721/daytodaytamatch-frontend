@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title= title || "Encounter++"
+    title= title || "encounter++"
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='/js/fetch.js')
     link(href="https://fonts.googleapis.com/css?family=Poiret+One|Raleway:200" rel="stylesheet")
@@ -20,6 +20,8 @@ html
                         span login
                     a(onclick='logout()')
                         span logout
+                    a(href='/update')
+                        span update profile
     block content
     script(src='/js/script.min.js')
     if token

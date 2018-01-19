@@ -31,10 +31,7 @@ function submitUser() {
     },
     method: 'POST',
     body: JSON.stringify(data)
-  }).then(function (data) {
-    submitSuccess(data)
-    window.location = '/classes'
-  })
+  }).then(submitSuccess)
   .catch(submitError)
 
 }
@@ -137,46 +134,8 @@ function displayError(message) {
     errorDiv.innerHTML = message;
     errorDiv.style.visibility = 'visible';
     */
+    console.log()
     alert(message.toString())
-}
-
-var x = document.getElementById("demo");
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(storePosition)
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-
-function storePosition(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude +
-    "<br>Longitude: " + position.coords.longitude;
-
-    var userLocation = {
-        id: localStorage.id,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-    }
-    fetch('/location', {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'PUT',
-        body: JSON.stringify(userLocation)
-    }).then(function(res) {
-        if (!res.ok) {
-            res.text().then(function(message) {
-                alert(message)
-            })
-        }
-        res.json().then(function(data) {
-            alert("location stored")
-            window.location = '/'
-        })
-    }).catch(function(err) {
-        console.error(err)
-    })
 }
 
 // authentication
@@ -223,13 +182,45 @@ function logout(id) {
     method: 'POST',
     body: JSON.stringify(data)
   }).then(function (res) {
-    localStorage.removeItem('token')
-    localStorage.removeItem('_id')
+    localStorage.clear()
     window.location = '/login'
   })
   .catch(submitError)
 
   return
+}
+
+
+//update user's basic fields
+
+function update(){
+  var data = {}
+  // checks for new values of fields
+  if (form.firstName.value) data.firstName = form.firstName.value
+  if (form.lastName.value) data.lastName = form.lastName.value
+  if (form.email.value) data.email = form.email.value
+  if (form.password.value) data.password = form.password.value
+  if (form.confirm.value) data.confirm = form.confirm.value
+  if (form.phone.value) data.phoneNumber = form.phone.value
+  if (form.classYear.value) data.classYear = form.classYear.value
+  if (form.house.value) data.house = form.house.value
+
+  fetch('/update', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify(data)
+  }).then(function (res) {
+    if (!res.ok) {alert('ERROR')}
+    res.json()
+    .then(function (data) {
+      console.log('res: ' + JSON.stringify(data))
+      console.log('localStorage.token: ' + localStorage.token + ' localStorage._id: ' + localStorage._id)
+      window.location = '/'
+    })
+  })
+  .catch(submitError)
 }
 
 
@@ -277,7 +268,6 @@ function makeTree(classesArray) {
 
 // dynamically render form options
 function renderTree(node) {
-
   if (!tree) {
     // fetch classes
     console.log("making tree")
@@ -292,7 +282,7 @@ function renderTree(node) {
 
   var buttons = document.getElementById('buttons')
   buttons.innerHTML = ''
-  
+
   for (i in options) {
     var option = document.createElement('button')
     option.innerHTML = options[i]
@@ -318,6 +308,7 @@ function renderTree(node) {
   // remove ] and '
   node = node.replace(/\]/g, '')
   node = node.replace(/\'/g, '')
+  localStorage.status = node
 
   var arr = node.split('.')
   console.log('replaced node: ' + arr + ' length: ' + arr.length)
@@ -341,17 +332,58 @@ function renderTree(node) {
 
   var find_button = document.createElement('button')
   find_button.setAttribute('id', 'find')
-  find_button.setAttribute('onclick', 'alert(\'hi\')')
-  if (path_arr.length == 2) {
-    find_button.innerHTML = 'SURPRISE ME'
-  } else {
-    find_button.innerHTML = 'FIND PEOPLE'
-  }
+  find_button.setAttribute('onclick', 'storeLocation(findNearby)')
+  find_button.innerHTML = 'FIND PEOPLE'
   path_id.appendChild(find_button)
 
   return
 
   // tree.findNode(node)
   // findPeopleNowButton(node)
+
+}
+
+function storeLocation(callback) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            localStorage.latitude = position.coords.latitude
+            localStorage.longitude = position.coords.longitude
+            callback()
+        })
+    } else {
+        alert("Geolocation is not supported by this browser.")
+    }
+}
+
+function findNearby() {
+    var findData = {
+        id: localStorage._id,
+        status: localStorage.status,
+        latitude: localStorage.latitude,
+        longitude: localStorage.longitude
+    }
+
+    fetch('/find-nearby', {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.token
+      },
+      method: 'PUT',
+      body: JSON.stringify(findData)
+    }).then(function (res) {
+      if (!res.ok) {alert('ERROR')}
+      res.json()
+      .then(function (users) {
+          var foundUsersHTML = ""
+          for (bc = 0; bc < users.length; bc++) {
+              foundUsersHTML += "<h2>" + users[bc].firstName + "</h2>"
+          }
+          var modalFound = document.getElementById('found-users')
+          var modalFoundContent = document.getElementById('found-users-content')
+          modalFound.style.display = 'block';
+          modalFoundContent.innerHTML = foundUsersHTML
+      })
+    })
+    .catch(submitError)
 
 }
