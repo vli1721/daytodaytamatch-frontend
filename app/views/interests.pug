@@ -12,7 +12,7 @@ block content
         form
             .fb-item
                 input(list='interests' name='interest' placeholder='Interests')
-                -var values = ['Reading', 'Watching TV', 'Movies', 'Fishing', 'Gardening', 'Working Out', 'Music', 'Sports', 'Traveling', 'Hiking', 'Cooking', 'Writing', 'Activism', 'Feminism', 'Running', 'Dancing', 'Swimming', 'Theater', 'Bitcoin', 'Blockchain', 'Cloud Computing', 'EECS', 'The Business Side', 'Professional Networking', 'Wine', 'Shopping', 'Thrift Shopping', 'Fashion', 'Food', 'Memes', 'Soccer', 'Football', 'Tennis', 'Gymnastics', 'Philosophy', 'Coding', 'The Feminine Mystique', 'Yoga', 'Pilates', 'Gaming', 'Sewing', 'Cryptography', 'Wellness', 'Photography', 'Art', 'Birdwatching', 'Astrology', 'Go', 'Chess', 'Surfing', 'Extreme Sports']
+                -var values = ['reading', 'watching tv', 'movies', 'fishing', 'gardening', 'working out', 'music', 'sports', 'traveling', 'hiking', 'cooking', 'writing', 'activism', 'feminism', 'running', 'dancing', 'swimming', 'theater', 'bitcoin', 'blockchain', 'cloud computing', 'eecs', 'the business side', 'professional networking', 'wine', 'shopping', 'thrift shopping', 'fashion', 'food', 'memes', 'soccer', 'football', 'tennis', 'gymnastics', 'philosophy', 'coding', 'the feminine mystique', 'yoga', 'pilates', 'gaming', 'sewing', 'cryptography', 'wellness', 'photography', 'art', 'birdwatching', 'astrology', 'go', 'chess', 'surfing', 'extreme sports']
                 datalist#interests
                     each val in values
                         option(value=val)

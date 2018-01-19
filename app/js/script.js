@@ -238,6 +238,7 @@ function login() {
       localStorage.token = data.token
       localStorage._id = data.userId
       localStorage.courses = JSON.stringify(String(data.classes).split(","))
+      localStorage.interests = JSON.stringify(String(data.interests).split(","))
       localStorage.firstName = data.firstName
       localStorage.lastName = data.lastName
       localStorage.phoneNumber = data.phoneNumber
