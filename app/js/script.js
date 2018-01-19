@@ -104,28 +104,32 @@ function login() {
     if (!res.ok) {alert('ERROR')}
     res.json()
     .then(function (data) {
-      console.log('res: ' + JSON.stringify(data))
       localStorage.token = data.token
       localStorage._id = data.userId
-      console.log('localStorage.token: ' + localStorage.token + ' localStorage._id: ' + localStorage._id)
+      localStorage.classes = data.classes
+      localStorage.firstName = data.firstName
+      localStorage.lastName = data.lastName
+      localStorage.phoneNumber = data.phoneNumber
+      localStorage.classYear = data.classYear
+      localStorage.house = data.house
       window.location = '/'
     })
   })
   .catch(submitError)
 }
 
-function logout(id) {
+function logout() {
   console.log('logging out')
-  data = { _id: localStorage._id }
+  var logoffData = { id: localStorage._id }
   fetch('/logout', {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
-    body: JSON.stringify(data)
+    body: JSON.stringify(logoffData)
   }).then(function (res) {
     localStorage.clear()
-    window.location = '/login'
+    window.location = '/'
   })
   .catch(submitError)
 
@@ -208,78 +212,114 @@ function makeTree(classesArray) {
   console.log('made tree: ' + JSON.stringify(tree))
 }
 
+function renderHamburger() {
+    var hamburger = document.getElementById("hamburger")
+    hamburger.innerHTML = ''
+    if (!localStorage.token) {
+        hamburger.innerHTML += '<a href="/login"><span>login</span></a>'
+        hamburger.innerHTML += '<a href="/register"><span>register</span></a>'
+    } else {
+        hamburger.innerHTML += '<a href="/update"><span>update profile</span></a>'
+        hamburger.innerHTML += '<a onclick="logout()"><span>logout</span></a>'
+    }
+}
+
+
+function showLoginPage() {
+    window.location = '/login'
+}
+
+function showRegisterPage() {
+    window.location = '/register'
+}
+
 // dynamically render form options
 function renderTree(node) {
-  if (!tree) {
-    // fetch classes
-    console.log("making tree")
-    makeTree(['ls1a', 'ec10a', 'cs50', 'sls20'])
-  }
+  if (!localStorage.token) {
+      var buttons = document.getElementById('buttons')
+      buttons.innerHTML = ''
+      var loginOption = document.createElement('button')
+      loginOption.innerHTML = 'login'
+      loginOption.setAttribute('onclick', 'showLoginPage()')
+      loginOption.setAttribute('style', 'height: 40%; font-size: 16vh')
+      buttons.appendChild(loginOption)
+      var registerOption = document.createElement('button')
+      registerOption.innerHTML = 'register'
+      registerOption.setAttribute('onclick', 'showRegisterPage()')
+      registerOption.setAttribute('style', 'height: 40%; font-size: 16vh')
+      buttons.appendChild(registerOption)
 
-  var options = []
-  for (i in eval(node))
-    options.push(i)
-
-  console.log("options [" + options + "], number of buttons needed: " + options.length)
-
-  var buttons = document.getElementById('buttons')
-  buttons.innerHTML = ''
-
-  for (i in options) {
-    var option = document.createElement('button')
-    option.innerHTML = options[i]
-    option.setAttribute('onclick', 'renderTree(\'' + node.replace(/'/g, '\\\'') + '[\\\'' + options[i] + '\\\']' + '\')')
-    var height = 100 / options.length
-    option.setAttribute('style', 'height: ' + height + '%;' + 'font-size: ' + (parseFloat(height)/2.5).toString() + 'vh')
-    buttons.appendChild(option)
-  }
-
-  var path_id = document.getElementById('path')
-  path_id.innerHTML = ''
-
-  // start
-  var start_button = document.createElement('button')
-  start_button.setAttribute('style', 'clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); opacity: .4')
-  start_button.setAttribute('onclick', 'renderTree(\'tree[\\\'start\\\']\')')
-  start_button.innerHTML = 'START'
-  path_id.appendChild(start_button)
-
-  // other buttons
-  // replace [ with .
-  node = node.replace(/\[/g, '.')
-  // remove ] and '
-  node = node.replace(/\]/g, '')
-  node = node.replace(/\'/g, '')
-  localStorage.status = node
-
-  var arr = node.split('.')
-  console.log('replaced node: ' + arr + ' length: ' + arr.length)
-  var path_arr = arr // node.split('.')
-  for (i in path_arr) {
-    if (i > 1) {
-      var path_button = document.createElement('button')
-      path_button.innerHTML = path_arr[i].toUpperCase()
-      // making path with brackets
-      var path_string = path_arr[0]
-      for (var ind = 1; ind < parseInt(i) + 1; ind++) {
-        path_string += '[\\\'' + path_arr[ind] + '\\\']'
+  } else {
+      if (!tree) {
+        // fetch classes
+        console.log("making tree")
+        makeTree(['ls1a', 'ec10a', 'cs50', 'sls20'])
       }
-      // renderTree(\'path_string\')
-        // path_string: tree['start']
-      path_button.setAttribute('onclick', 'renderTree(\'' + path_string + '\')')
-      path_button.setAttribute('style', 'opacity: ' + parseFloat(.4+0.1*(i)))
-      path_id.appendChild(path_button)
-    }
-  }
 
-  var find_button = document.createElement('button')
-  find_button.setAttribute('id', 'find')
-  find_button.setAttribute('onclick', 'storeLocation(findNearby)')
-  find_button.innerHTML = 'FIND PEOPLE'
-  path_id.appendChild(find_button)
+      var options = []
+      for (i in eval(node))
+        options.push(i)
 
-  return
+      console.log("options [" + options + "], number of buttons needed: " + options.length)
 
+      var buttons = document.getElementById('buttons')
+      buttons.innerHTML = ''
+
+      for (i in options) {
+        var option = document.createElement('button')
+        option.innerHTML = options[i]
+        option.setAttribute('onclick', 'renderTree(\'' + node.replace(/'/g, '\\\'') + '[\\\'' + options[i] + '\\\']' + '\')')
+        var height = 100 / options.length
+        option.setAttribute('style', 'height: ' + height + '%;' + 'font-size: ' + (parseFloat(height)/2.5).toString() + 'vh')
+        buttons.appendChild(option)
+      }
+
+      var path_id = document.getElementById('path')
+      path_id.innerHTML = ''
+
+      // start
+      var start_button = document.createElement('button')
+      start_button.setAttribute('style', 'clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%); opacity: .4')
+      start_button.setAttribute('onclick', 'renderTree(\'tree[\\\'start\\\']\')')
+      start_button.innerHTML = 'START'
+      path_id.appendChild(start_button)
+
+      // other buttons
+      // replace [ with .
+      node = node.replace(/\[/g, '.')
+      // remove ] and '
+      node = node.replace(/\]/g, '')
+      node = node.replace(/\'/g, '')
+      localStorage.status = node
+
+      var arr = node.split('.')
+      console.log('replaced node: ' + arr + ' length: ' + arr.length)
+      var path_arr = arr // node.split('.')
+      for (i in path_arr) {
+        if (i > 1) {
+          var path_button = document.createElement('button')
+          path_button.innerHTML = path_arr[i].toUpperCase()
+          // making path with brackets
+          var path_string = path_arr[0]
+          for (var ind = 1; ind < parseInt(i) + 1; ind++) {
+            path_string += '[\\\'' + path_arr[ind] + '\\\']'
+          }
+          // renderTree(\'path_string\')
+            // path_string: tree['start']
+          path_button.setAttribute('onclick', 'renderTree(\'' + path_string + '\')')
+          path_button.setAttribute('style', 'opacity: ' + parseFloat(.4+0.1*(i)))
+          path_id.appendChild(path_button)
+        }
+      }
+
+      var find_button = document.createElement('button')
+      find_button.setAttribute('id', 'find')
+      find_button.setAttribute('onclick', 'storeLocation(findNearby)')
+      find_button.innerHTML = 'FIND PEOPLE'
+      path_id.appendChild(find_button)
+
+      return
+}
   // tree.findNode(node)
   // findPeopleNowButton(node)
 
