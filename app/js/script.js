@@ -473,11 +473,17 @@ function storeLocation(callback) {
 }
 
 function findNearby() {
+    var passedInterests = localStorage.interests.replace(/\//g, '')
+    var passedClasses = localStorage.courses.replace(/\//g, '')
+    console.log(passedInterests)
+    console.log(passedClasses)
     var findData = {
         id: localStorage._id,
         status: localStorage.status,
         latitude: localStorage.latitude,
-        longitude: localStorage.longitude
+        longitude: localStorage.longitude,
+        interests: passedInterests,
+        classes: passedClasses
     }
 
     fetch('/find-nearby', {
