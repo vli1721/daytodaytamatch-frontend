@@ -61,11 +61,13 @@ function addClass() {
 
 function deleteClass(course) {
   var courses = JSON.parse(localStorage.courses)
-  console.log('courses: ' + courses)
-  courses.map(function (el) {
-    el != course
+  console.log('courses before deleting ' + course + ': ' + courses)
+  courses = courses.filter(function (el) {
+    console.log('el: ' + el + ' course: ' + course)
+    return el !== course
   })
   localStorage.setItem('courses', JSON.stringify(courses))
+  console.log('courses after deleting: ' + courses)
   renderClasses()
 }
 
@@ -83,6 +85,13 @@ function renderClasses() {
     var course_str = '\"' + courses[i] + '\"'
     el.innerHTML = courses[i] + '<button class=\'x-button\' onclick=\'deleteClass(' + course_str + ')\'>&#10006</button>'
 
+    row.appendChild(el)
+    table.appendChild(row)
+  }
+  if (courses.length == 0) {
+    var row = document.createElement('tr')
+    var el = document.createElement('td')
+    el.innerHTML = 'no courses yet'
     row.appendChild(el)
     table.appendChild(row)
   }
