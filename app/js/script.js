@@ -383,7 +383,7 @@ function renderTree(node) {
       if (!tree) {
         // fetch classes
         console.log("making tree")
-        makeTree(['ls1a', 'ec10a', 'cs50', 'sls20'])
+        makeTree(localStorage.courses)// ['ls1a', 'ec10a', 'cs50', 'sls20'])
       }
 
       var options = []
