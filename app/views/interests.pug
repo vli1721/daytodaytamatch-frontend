@@ -9,16 +9,19 @@ block content
         br
         br
     .form-box
-        form
+        form(onload='checkLoggedIn()')
             .fb-item
                 input(list='interests' name='interest' placeholder='Interests')
-                -var values = [Reading, Watching TV, Movies, Fishing, Gardening, Working Out, Music, Sports, Traveling, Hiking, Cooking, Writing, Activism, Feminism, Running, Dancing, Swimming, Theater, Bitcoin, Blockchain, Cloud Computing, EECS, The Business Side, Professional Networking, Wine, Shopping, Thrift Shopping, Fashion, Food, Memes, Soccer, Football, Tennis, Gymnastics, Philosophy, Coding, The Feminine Mystique, Yoga, Pilates, Gaming, Sewing, Cryptography, Wellness, Photography, Art, Birdwatching, Astrology, Go, Chess, Surfing, Extreme Sports]
+                -var values = ['Reading', 'Watching TV', 'Movies', 'Fishing', 'Gardening', 'Working Out', 'Music', 'Sports', 'Traveling', 'Hiking', 'Cooking', 'Writing', 'Activism', 'Feminism', 'Running', 'Dancing', 'Swimming', 'Theater', 'Bitcoin', 'Blockchain', 'Cloud Computing', 'EECS', 'The Business Side', 'Professional Networking', 'Wine', 'Shopping', 'Thrift Shopping', 'Fashion', 'Food', 'Memes', 'Soccer', 'Football', 'Tennis', 'Gymnastics', 'Philosophy', 'Coding', 'The Feminine Mystique', 'Yoga', 'Pilates', 'Gaming', 'Sewing', 'Cryptography', 'Wellness', 'Photography', 'Art', 'Birdwatching', 'Astrology', 'Go', 'Chess', 'Surfing', 'Extreme Sports']
                 datalist#interests
                     each val in values
                         option(value=val)
             br
             button#submit(type='submit' onclick='addInterest()') ADD INTEREST
     .table
+    .form-box
+        span(id='saveInterests')
+            button#submit
 
 block postscript
     script.

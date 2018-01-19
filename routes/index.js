@@ -19,6 +19,10 @@ router.get('/classes', (req, res, next) => {
   return res.render('classes')
 })
 
+router.get('/interests', (req, res, next) => {
+  return res.render('interests')
+})
+
 router.put('/location', (req, res, next) => {
   request.put({
       url: config.apiUrl + '/update-location',

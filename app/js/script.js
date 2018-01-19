@@ -520,3 +520,71 @@ function checkLoggedIn() {
         window.location = '/'
     }
 }
+
+
+function renderInterests() {
+  var table_interest = document.getElementsByClassName('table')[0]
+  table_interest.innerHTML = ''
+  var table = document.createElement('table')
+  table_interest.appendChild(table)
+
+  var interests = []
+  if (localStorage.interests) {
+    interests = JSON.parse(localStorage.interests)
+  }
+
+  for (i in interests) {
+    var row = document.createElement('tr')
+    var el = document.createElement('td')
+    console.log('interests[i]: ' + interests[i])
+    var interest_str = '\"' + interests[i] + '\"'
+    el.innerHTML = interests[i] + '<button class=\'x-button\' onclick=\'deleteInterest(' + interest_str + ')\'>&#10006</button>'
+
+    row.appendChild(el)
+    table.appendChild(row)
+  }
+  if (interests.length == 0) {
+    var row = document.createElement('tr')
+    var el = document.createElement('td')
+    el.innerHTML = 'no interests yet'
+    row.appendChild(el)
+    table.appendChild(row)
+  }
+  var save = document.getElementById('saveInterests')
+  save.innerHTML = '<button id=\'submit\' onclick=\'updateInterests()\'>UPDATE INTERESTS</button>'
+}
+
+function addInterest() {
+  var interest = ''
+  if (form.interest.value) interest = form.interest.value
+  else {
+    displayError('Need to select a interest')
+    window.location = '/interests'
+    return
+  }
+
+  var stored_interests
+  if (localStorage.interests) {
+    stored_interests = JSON.parse(localStorage.interests)
+  } else {
+    stored_interests = []
+  }
+
+  stored_interests.push(interests)
+  localStorage.setItem('interests', JSON.stringify(stored_interests))
+
+  window.location = '/interests'
+  return
+}
+
+function deleteInterest(interest) {
+  var interests = JSON.parse(localStorage.interests)
+  console.log('interests before deleting ' + interest + ': ' + interests)
+  interests = interests.filter(function (el) {
+    console.log('el: ' + el + ' interest: ' + interest)
+    return el !== interest
+  })
+  localStorage.setItem('interests', JSON.stringify(interests))
+  console.log('courses after deleting: ' + interests)
+  renderInterests()
+}
