@@ -491,11 +491,16 @@ function findNearby() {
           var foundUsersHTML = ""
 
           if (users.length == 0) {
-            users = [{ 'firstName' : 'Fred', 'lastName': 'Williams', 'phoneNumber': '1234567890'}]
+            users = [{ 'firstName' : 'Fred', 'lastName': 'Williams', 'phoneNumber': '1234567890', 'interests': 'sleeping, eating, taking care of the business side', 'classes': 'ls1a', 'distance': '.1'}]
           }
 
           for (bc = 0; bc < users.length; bc++) {
-              foundUsersHTML += "<span>" + users[bc].firstName + ' ' + users[bc].lastName + ': ' + users[bc].phoneNumber + "<span>"
+              foundUsersHTML += "<h3>" + users[bc].firstName + " " + users[bc].lastName + "</h3>"
+              foundUsersHTML += "<p>Phone Number: " + formatPhoneNumber(String(users[bc].phoneNumber)) + "</p>"
+              foundUsersHTML += "<p>Distance: " + users[bc].distance + " mi away</p>"
+              foundUsersHTML += "<p>Interests: " + users[bc].interests.toString().replace(/,/g, ', ') + "</p>"
+              foundUsersHTML += "<p>Classes: " + users[bc].classes.toString().replace(/,/g, ', ') + "</p>"
+              foundUsersHTML += "<br>"
           }
 
           var modalFound = document.getElementById('found-users')
@@ -513,9 +518,15 @@ function findNearby() {
 
 }
 
+
 function hideModal() {
   document.getElementById('found-users').style.display = 'none'
   return
+}
+function formatPhoneNumber(s) {
+  var s2 = (""+s).replace(/\D/g, '');
+  var m = s2.match(/^(\d{3})(\d{3})(\d{4})$/);
+  return (!m) ? null : "(" + m[1] + ") " + m[2] + "-" + m[3];
 }
 
 
