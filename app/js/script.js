@@ -32,7 +32,6 @@ function submitUser() {
     method: 'POST',
     body: JSON.stringify(data)
   }).then(function (data) {
-    submitSuccess(data)
     window.location = '/classes'
   })
   .catch(submitError)
@@ -107,7 +106,6 @@ function renderClasses() {
 }
 
 function updateClasses() {
-  //-TODO FINISH THIS
   var data = { 'classes' : localStorage.courses, 'id': localStorage._id }
   console.log('classes: ' + JSON.stringify(data))
   fetch('/update', {
@@ -122,7 +120,7 @@ function updateClasses() {
     .then(function (data) {
       console.log('res: ' + JSON.stringify(data))
       console.log('localStorage.token: ' + localStorage.token + ' localStorage._id: ' + localStorage._id)
-      window.location = '/'
+      window.location = '/interests'
     })
   })
   .catch(submitError)
@@ -494,7 +492,7 @@ function findNearby() {
           var foundUsersHTML = ""
 
           if (users.length == 0) {
-            users = [{ 'firstName' : 'Fred', 'lastName': 'Williams', 'phoneNumber': '1234567890', 'interests': 'sleeping, eating, taking care of the business side', 'classes': 'ls1a', 'distance': '.1'}]
+            users = [{ 'firstName' : 'Fred', 'lastName': 'Williams', 'phoneNumber': '1234567890', 'interests': 'sleeping, eating, taking care of the business side', 'classes': ['ls1a', 'ec10a'], 'distance': '.1'}]
           }
 
           for (bc = 0; bc < users.length; bc++) {
@@ -502,7 +500,7 @@ function findNearby() {
               foundUsersHTML += "<p>Phone Number: " + formatPhoneNumber(String(users[bc].phoneNumber)) + "</p>"
               foundUsersHTML += "<p>Distance: " + users[bc].distance + " mi away</p>"
               foundUsersHTML += "<p>Interests: " + users[bc].interests.toString().replace(/,/g, ', ') + "</p>"
-              foundUsersHTML += "<p>Classes: " + users[bc].classes.toString().replace(/,/g, ', ') + "</p>"
+              foundUsersHTML += "<p>Classes: " + users[bc].classes.toString().replace(/,/g, ', ').replace(/'/g, '') + "</p>"
               foundUsersHTML += "<br>"
           }
 
