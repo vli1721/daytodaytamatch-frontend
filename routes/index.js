@@ -48,7 +48,6 @@ router.post('/login', (req, res, next) => {
   }).pipe(res)
 })
 
-//-TODO logout
 router.post('/logout', (req, res, next) => {
   request.post({
     url: config.apiUrl + '/auth/logoff',
