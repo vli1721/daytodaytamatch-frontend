@@ -106,7 +106,7 @@ function renderClasses() {
 }
 
 function updateClasses() {
-  var data = { 'classes' : localStorage.courses, 'id': localStorage._id }
+  var data = { classes: JSON.parse(String(localStorage.courses).replace(/\//g, '')), id: localStorage._id }
   console.log('classes: ' + JSON.stringify(data))
   fetch('/update', {
     headers: {
@@ -471,11 +471,15 @@ function storeLocation(callback) {
 }
 
 function findNearby() {
+    var passedInterests = localStorage.interests.replace(/\//g, '')
+    var passedClasses = localStorage.courses.replace(/\//g, '')
     var findData = {
         id: localStorage._id,
         status: localStorage.status,
         latitude: localStorage.latitude,
-        longitude: localStorage.longitude
+        longitude: localStorage.longitude,
+        interests: passedInterests,
+        classes: passedClasses
     }
 
     fetch('/find-nearby', {
@@ -570,6 +574,30 @@ function renderInterests() {
   var save = document.getElementById('saveInterests')
   save.innerHTML = '<button id=\'submit\' onclick=\'updateInterests()\'>UPDATE INTERESTS</button>'
 }
+
+function updateInterests() {
+  //-TODO FINISH THIS
+  var passedInterests = localStorage.interests.replace(/\//g, '')
+  var data = { 'interests' : passedInterests, 'id': localStorage._id }
+  console.log('interests: ' + JSON.stringify(data))
+  fetch('/update', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify(data)
+  }).then(function (res) {
+    if (!res.ok) {alert('ERROR!')}
+    res.json()
+    .then(function (data) {
+      console.log('res: ' + JSON.stringify(data))
+      console.log('localStorage.token: ' + localStorage.token + ' localStorage._id: ' + localStorage._id)
+      window.location = '/'
+    })
+  })
+  .catch(submitError)
+}
+
 
 function addInterest() {
   var interest = ''
