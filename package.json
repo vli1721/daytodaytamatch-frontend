@@ -1,7 +1,6 @@
 {
-  "name": "web-vanillajs-starter-app",
+  "name": "encounter-frontend",
   "version": "0.0.0",
-  "author": "HSA DEV <dev@hsa.net>",
   "private": true,
   "scripts": {
     "build": "npm install && grunt publish",
